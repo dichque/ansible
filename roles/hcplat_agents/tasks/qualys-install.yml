@@ -1,0 +1,37 @@
+---
+
+- name: Install python Apt for Debian
+  apt:
+    name: "python-apt"
+  when:
+    - ansible_os_family == "Debian"
+    - ansible_distribution_major_version is regex("16|18")
+
+# - name: Gather the packager facts
+#   package_facts:
+
+- name: Install qualys package qualys-cloud-agent.x86_64 for RedHat
+  yum:
+    name: "{{ qualys_pkg[osfamily] }}"
+    state: present
+    disable_gpg_check: yes
+  when:
+     - ansible_os_family == "RedHat"
+    #  - "'qualys-cloud-agent' not in ansible_facts.packages"
+  notify:
+  - Configure Qualys Agent {{ osfamily }}
+
+- name: Install qualys package qualys-cloud-agent.x86_64 for Debian
+  apt:
+    deb: "{{ qualys_pkg[osfamily] }}"
+  when:
+     - ansible_os_family == "Debian"
+    #  - "'qualys-cloud-agent' not in ansible_facts.packages"
+  notify:
+  - Configure Qualys Agent {{ osfamily }}
+
+- name: Ensure "qualys-cloud-agent" is running and enabled
+  service:
+    name: "{{ qualys_service[osfamily] }}"
+    state: started
+    enabled: yes

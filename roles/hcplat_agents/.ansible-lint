@@ -1,0 +1,5 @@
+warn_list:  # or 'skip_list' to silence them completely
+  - experimental  # all rules tagged as experimental
+  - meta-no-tags  # Tags must contain lowercase letters and digits only
+  - var-spacing  # Variables should have spaces before and after:  {{ var_name }}
+  - role-name

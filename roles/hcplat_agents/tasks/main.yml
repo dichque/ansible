@@ -1,0 +1,14 @@
+---
+# tasks file for hcplat_agents
+
+# Amazon AMI comes pre-installed from upstream Cloud9
+- name: Install cloudwatch agent for CentOS, RedHat and Ubuntu Linux. 
+  include_tasks: cloudwatch-install.yml
+  when:
+    - cloudwatch_install == True
+
+# Qualys agent install
+- name: Install qualys agent. 
+  include_tasks: qualys-install.yml
+  when:
+    - qualys_install == True

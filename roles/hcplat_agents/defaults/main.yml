@@ -1,0 +1,17 @@
+---
+## Cloudwatch variables
+cloudwatch_install: true
+cloudwatch_version: "latest"
+
+## Qualys variables
+qualys_install: true
+qualys_pkg:
+  RedHat: 'https://cisco-qualys-agent.s3.us-east-2.amazonaws.com/RedHat/qualys-cloud-agent.x86_64.rpm'
+  Debian: 'https://cisco-qualys-agent.s3.us-east-2.amazonaws.com/Debian/qualys-cloud-agent.x86_64.deb'
+qualys_service:
+  RedHat: qualys-cloud-agent
+  Debian: qualys-cloud-agent
+qualys_agent:
+  RedHat: "/usr/local/qualys/cloud-agent/bin/qualys-cloud-agent.sh ActivationId=f30761b0-1e51-48f9-90cc-8a4cbbea237a CustomerId=9c0e25dc-ae08-5af6-e040-10ac13043f6a"
+  Debian: "/usr/local/qualys/cloud-agent/bin/qualys-cloud-agent.sh ActivationId=6db60a3c-1b6e-4978-b72f-fba4cab76959 CustomerId=9c0e25dc-ae08-5af6-e040-10ac13043f6a"
+

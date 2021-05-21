@@ -1,0 +1,10 @@
+---
+# handlers file for hcplat_agents
+
+- name: Configure Qualys Agent RedHat
+  shell: "{{ qualys_agent[osfamily] }}"
+  when: ansible_os_family == "RedHat"
+
+- name: Configure Qualys Agent Debian
+  shell: "{{ qualys_agent[osfamily] }}"
+  when: ansible_os_family == "Debian"

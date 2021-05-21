@@ -1,0 +1,35 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: CentOS
+    image: docker.io/pycontribs/centos:8
+    pre_build_image: true
+  - name: Ubuntu
+    image: docker.io/pycontribs/ubuntu
+    pre_build_image: true
+
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+    enabled: true
+  playbooks:
+    converge: ../converge.yml
+
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+
+verifier:
+  name: testinfra
+  directory: ../tests/
+  env:
+    # get rid of the DeprecationWarning messages of third-party libs,
+    # see https://docs.pytest.org/en/latest/warnings.html#deprecationwarning-and-pendingdeprecationwarning
+    PYTHONWARNINGS: "ignore:.*U.*mode is deprecated:DeprecationWarning"
+  options:
+    v: 1
