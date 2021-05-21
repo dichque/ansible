@@ -1,0 +1,36 @@
+scenario:
+  name: aws-ec2
+
+driver:
+  name: ec2
+platforms:
+  - name: Ubuntu
+    # CiscoHardened-Ubuntu16.04LTS_HVM_EBS-2021-03-15.07.15.58
+    image: ami-0033a94401f972da8
+    instance_type: t2.micro
+    vpc_subnet_id: subnet-08b1170b0e3dc60d4
+  - name: CentOS
+    # CiscoHardened-CentOS8_HVM_EBS-2021-04-01.07.16.55
+    # image: ami-0121a4934b4bf3492
+    image: ami-096fda3c22c1c990a
+    instance_type: t2.micro
+    vpc_subnet_id: subnet-08b1170b0e3dc60d4
+provisioner:
+  playbooks:
+    converge: ../converge.yml
+
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+
+verifier:
+  name: testinfra
+  directory: ../tests/
+  env:
+    # get rid of the DeprecationWarning messages of third-party libs,
+    # see https://docs.pytest.org/en/latest/warnings.html#deprecationwarning-and-pendingdeprecationwarning
+    PYTHONWARNINGS: "ignore:.*U.*mode is deprecated:DeprecationWarning"
+  options:
+    # show which tests where executed in test output
+    v: 1
